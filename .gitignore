@@ -9,6 +9,14 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.yarnrc.yml
+package.json
+yarn.lock
+extensions.json
+settings.json
+yarn-4.9.2.cjs
+0.pack.gz
+index.pack.gz
 
 # testing
 /coverage
