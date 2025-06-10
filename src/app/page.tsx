@@ -16,7 +16,7 @@ export default function Home() {
       <div className={styles.content}>
         <h1 className={styles.title}>TripPick</h1>
         <p className={styles.subtitle}>
-          나만의 여행 일정을 쉽고 빠르게 계획해 보세요.
+          나만의 여행 일정을 쉽고 빠르게 계획해 보세요.sss
         </p>
         {/* <AuthForm /> */}
       </div>
