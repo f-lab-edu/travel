@@ -27,6 +27,7 @@ const signInWith = (provider: Provider) => async () => {
 const signOut = async () => {
   const supabase = await createClientForServer();
   await supabase.auth.signOut();
+  redirect("/auth");
 };
 const signInWithGoogle = signInWith("google");
 

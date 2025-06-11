@@ -1,0 +1,20 @@
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #f9fafb;
+  gap: 1.5rem;
+}
+.projectName {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #456fe6;
+  margin-bottom: 0.5rem;
+}
+.welcomeMessage {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
