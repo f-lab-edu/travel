@@ -1,28 +1,16 @@
 import { signOut } from "@/utils/supabase/actions";
 import { createClientForServer } from "@/utils/supabase/server";
 import Link from "next/link";
+import styles from "./page.module.scss";
 
 export default async function Home() {
   const supabase = await createClientForServer();
 
   const session = await supabase.auth.getUser();
 
-  if (!session.data.user) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen gap-4">
-        <h1 className="text-4xl font-bold">Not Authenticated</h1>
-        <Link className="border rounded px-2.5 py-2" href="/auth">
-          Sign in
-        </Link>
-      </div>
-    );
-  }
-
-  const {
-    data: {
-      user: { user_metadata, app_metadata },
-    },
-  } = session;
+  const user = session.data.user!;
+  if (!user) throw new Error("Unexpected: user not found");
+  const { user_metadata, app_metadata } = user;
 
   const { email } = user_metadata;
 
@@ -30,14 +18,29 @@ export default async function Home() {
 
   console.log(session);
   return (
-    <div className="flex flex-col gap-4">
-      <p className="text-xl">Email: {Email}</p>
+    <div className={styles.pageWrapper}>
+      {/* 헤더 */}
+      <header className={styles.header}>
+        <h1 className={styles.logo}>TripPick</h1>
+      </header>
 
-      <form action={signOut}>
-        <button className="border rounded px-2.5 py-2" type="submit">
-          Sign Out
-        </button>
-      </form>
+      {/* 메인 콘텐츠 */}
+      <main className={styles.mainContent}>
+        <p className={styles.welcomeMsg}>
+          환영합니다 <b>{Email}</b> 님!
+        </p>
+
+        <form action={signOut}>
+          <button className={styles.logoutBtn} type="submit">
+            로그아웃
+          </button>
+        </form>
+      </main>
+
+      {/* 푸터 */}
+      <footer className={styles.footer}>
+        <span>© 2025 TripPick. All rights reserved.</span>
+      </footer>
     </div>
   );
 }
