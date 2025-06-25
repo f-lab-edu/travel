@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClientForServer } from "@/utils/supabase/server";
-import { findUserById } from "../../lib/userRepo";
+import { findUserById } from "../../api/userRepo";
 import { v4 as uuidv4 } from "uuid";
 
 export async function GET(request: NextRequest) {
