@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import styles from "./Header.module.scss";
+import { useRouter } from "next/navigation";
 import {
   IconHamburger,
   IconClose,
@@ -14,11 +15,14 @@ import Link from "next/link";
 
 export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
+  const router = useRouter();
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.logo}>TripPick</h1>
+        <h1 className={styles.logo} onClick={() => router.push("/")}>
+          TripPick
+        </h1>
+
         <button
           className={styles.iconButton}
           aria-label="메뉴 열기"
