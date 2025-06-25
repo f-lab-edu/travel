@@ -35,3 +35,20 @@
   font-size: 20px;
   color: #777;
 }
+
+.changeAvatarBtn {
+  margin-top: 16px;
+  padding: 10px 16px;
+  background-color: #5ac8fa;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #35b3ea;
+  }
+}

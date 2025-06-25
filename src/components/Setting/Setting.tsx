@@ -1,52 +1,75 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client"; // 클라이언트용 Supabase 인스턴스
+import { useEffect, useState, useRef } from "react";
 import styles from "./Setting.module.scss";
 
-export default function UserSetting() {
-  const [userInfo, setUserInfo] = useState<{
-    email: string;
-    avatar_url?: string;
-    name?: string;
-  } | null>(null);
+export default function UserSetting({
+  email,
+  profile_url,
+  name,
+}: {
+  email: string;
+  profile_url?: string;
+  name?: string;
+}) {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [profileUrl, setprofileUrl] = useState(profile_url || "");
 
-  useEffect(() => {
-    const supabase = createClient();
+  // 이미지 업로드 핸들러
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    async function fetchUser() {
-      const { data, error } = await supabase.auth.getUser();
-      console.log("======data======", data);
-      if (data.user) {
-        const { user_metadata, email } = data.user;
-        setUserInfo({
-          email: email || "",
-          avatar_url: user_metadata?.avatar_url || "", // 없으면 빈 값
-          name: user_metadata?.name || "이름 없음",
-        });
-      }
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload-profile", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      alert("업로드 실패");
+      return;
     }
 
-    fetchUser();
-  }, []);
-
-  if (!userInfo) return <div className={styles.loading}>로딩 중...</div>;
+    const { publicUrl } = await res.json();
+    console.log("변경된 이미지 URL:", publicUrl);
+    setprofileUrl(publicUrl);
+  };
 
   return (
     <div className={styles.settingWrapper}>
       <section className={styles.profileSection}>
         <img
-          src={
-            userInfo.avatar_url ||
-            "https://via.placeholder.com/120?text=No+Image"
-          }
+          src={profileUrl || "https://via.placeholder.com/120?text=No+Image"}
           alt="유저 프로필"
           className={styles.avatar}
         />
         <div className={styles.userInfo}>
-          <p className={styles.userName}>{userInfo.name}</p>
-          <p className={styles.userEmail}>{userInfo.email}</p>
+          <p className={styles.userName}>{name}</p>
+          <p className={styles.userEmail}>{email}</p>
         </div>
+        {/* 숨겨진 파일 선택 */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          onChange={handleAvatarChange}
+        />
+
+        <button
+          className={styles.changeAvatarBtn}
+          onClick={() => {
+            const ok = window.confirm("정말 프로필 이미지를 변경하시겠어요?");
+            if (ok) {
+              fileInputRef.current?.click();
+            }
+          }}
+        >
+          프로필 이미지 변경
+        </button>
       </section>
     </div>
   );
