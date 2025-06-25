@@ -1,0 +1,37 @@
+.settingWrapper {
+  padding: 32px 16px;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; // 원형
+  object-fit: cover;
+  border: 2px solid #ddd;
+  margin-bottom: 16px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userName {
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.userEmail {
+  font-size: 20px;
+  color: #777;
+}
