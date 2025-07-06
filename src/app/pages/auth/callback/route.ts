@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClientForServer } from "@/utils/supabase/server";
-import { findUserById } from "../../api/userRepo";
+import { findUserById } from "../../../api/userRepo";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);

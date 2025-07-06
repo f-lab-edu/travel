@@ -1,6 +1,6 @@
 import UserSetting from "@/components/pages/Setting/Setting";
 import { createClientForServer } from "@/utils/supabase/server";
-import { findUserById } from "../../app/api/userRepo";
+import { findUserById } from "../../api/userRepo";
 
 export default async function SettingPage() {
   const supabase = await createClientForServer();
