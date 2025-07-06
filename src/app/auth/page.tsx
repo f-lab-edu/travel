@@ -1,4 +1,4 @@
-import AuthForm from "@/components/Forms/AuthForm";
+import AuthForm from "@/components/forms/AuthForm/AuthForm";
 import styles from "./auth.module.scss";
 import Image from "next/image";
 

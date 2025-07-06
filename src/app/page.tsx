@@ -19,11 +19,6 @@ export default async function Home() {
   console.log(session);
   return (
     <div className={styles.pageWrapper}>
-      {/* 헤더 */}
-      <header className={styles.header}>
-        <h1 className={styles.logo}>TripPick</h1>
-      </header>
-
       {/* 메인 콘텐츠 */}
       <main className={styles.mainContent}>
         <p className={styles.welcomeMsg}>
