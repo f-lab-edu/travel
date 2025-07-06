@@ -1,4 +1,4 @@
-import UserSetting from "@/components/Setting/Setting";
+import UserSetting from "@/components/pages/Setting/Setting";
 import { createClientForServer } from "@/utils/supabase/server";
 import { findUserById } from "../../app/api/userRepo";
 
