@@ -1,28 +1,35 @@
 // ==========================
 // 컬러 팔레트 (Colors)
 // ==========================
+// -- 브랜드 컬러 (Brand Colors) --
 $primary-color: #4285f4;
 $primary-color-dark: #357ae8;
 $secondary-color: #ff5722;
-$success-color: #10b981;
-$warning-color: #facc15;
-$error-color: #ef4444;
-$info-color: #38bdf8;
 $main-blue: #5ac8fa;
-$white: #fff;
-$page-bg: #f6fbff;
 $main-blue-dark: #259cd6;
-$header-bg: #e7f3fd;
-$footer-bg: #cbe5fa;
-$text-dark: #153957;
-$text-light: #ffffff;
+
+// -- 상태 컬러 (Semantic Colors) --
+$success-color: #10b981; // 성공
+$warning-color: #facc15; // 경고
+$error-color: #ef4444; // 에러
+$info-color: #38bdf8; // 정보
+
+// -- 배경 컬러 (Background Colors) --
+$page-bg: #f6fbff;
 $background-color: #f7fafc;
 $background-light: #fff;
 $background-dark: #1a202c;
+$header-bg: #e7f3fd;
+$footer-bg: #cbe5fa;
+
+// -- 텍스트 컬러 (Text Colors) --
+$text-dark: #153957;
+$text-light: #ffffff;
 $text-color: #111;
 $text-color-light: #6b7280;
 $text-color-inverse: #fff;
 
+// -- 기타 컬러 (Border, Divider, Disabled) --
 $border-color: #e5e7eb;
 $divider-color: #e0e0e0;
 $disabled-color: #cbd5e1;
