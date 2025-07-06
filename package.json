@@ -19,6 +19,7 @@
     "react-date-range": "^2.0.1",
     "react-dom": "^19.0.0",
     "react-flags-select": "^2.5.0",
+    "react-world-flags": "^1.6.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-world-flags": "^1",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "sass": "^1.89.1",
