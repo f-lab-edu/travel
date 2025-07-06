@@ -69,13 +69,13 @@ export default function Header() {
           <nav>
             <ul className={styles.menuList}>
               <li>
-                <Link href="/new-trip" onClick={handleMenuClick}>
+                <Link href="/pages/trips/new" onClick={handleMenuClick}>
                   <IconPlus width={20} height={20} />
                   <span className={styles.menuText}>새로운 여행 추가</span>
                 </Link>
               </li>
               <li>
-                <Link href="/setting" onClick={handleMenuClick}>
+                <Link href="/pages/setting" onClick={handleMenuClick}>
                   <IconSetting width={20} height={20} />
                   <span className={styles.menuText}>설정</span>
                 </Link>
