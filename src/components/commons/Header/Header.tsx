@@ -39,9 +39,14 @@ export default function Header() {
   return (
     <>
       <header className={styles.header}>
-        <h1 className={styles.logo} onClick={handleLogoClick}>
-          TripPick
-        </h1>
+        <button
+          type="button"
+          className={styles.logoButton}
+          onClick={handleLogoClick}
+          aria-label="홈으로 이동"
+        >
+          <h1 className={styles.logo}>TripPick</h1>
+        </button>
 
         <button
           className={styles.iconButton}
@@ -52,10 +57,7 @@ export default function Header() {
         </button>
       </header>
 
-      <div
-        className={`${styles.drawer} ${isDrawerOpen ? styles.open : ""}`}
-        onClick={closeDrawer}
-      >
+      <div className={`${styles.drawer} ${isDrawerOpen ? styles.open : ""}`}>
         <div className={styles.drawerContent} onClick={stopPropagation}>
           <button className={styles.closeButton} onClick={closeDrawer}>
             <IconClose width={24} height={24} />
