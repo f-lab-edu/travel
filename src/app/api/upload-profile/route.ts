@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   } = supabase.storage.from("userprofileimages").getPublicUrl(filePath);
 
   // 3. 유저 테이블 업데이트
-  const { data, error: updateError } = await supabase
+  const { error: updateError } = await supabase
     .from("users")
     .update({ profile_image_url: publicUrl })
     .eq("id", user.id);
