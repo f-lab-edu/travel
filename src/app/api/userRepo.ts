@@ -1,5 +1,4 @@
 // lib/userRepo.ts
-import type { User } from "../types/user";
 import { createClientForServer } from "@/utils/supabase/server";
 
 export async function findUserById(id: string) {

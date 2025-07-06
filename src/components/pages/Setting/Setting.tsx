@@ -1,19 +1,21 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import styles from "./Setting.module.scss";
+
+type UserSettingProps = {
+  readonly email: string;
+  readonly profile_url?: string;
+  readonly name?: string;
+};
 
 export default function UserSetting({
   email,
   profile_url,
   name,
-}: {
-  email: string;
-  profile_url?: string;
-  name?: string;
-}) {
+}: UserSettingProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [profileUrl, setprofileUrl] = useState(profile_url || "");
+  const [profileUrl, setprofileUrl] = useState(profile_url ?? "");
 
   // 이미지 업로드 핸들러
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +44,7 @@ export default function UserSetting({
     <div className={styles.settingWrapper}>
       <section className={styles.profileSection}>
         <img
-          src={profileUrl || "https://via.placeholder.com/120?text=No+Image"}
+          src={profileUrl ?? "https://via.placeholder.com/120?text=No+Image"}
           alt="유저 프로필"
           className={styles.avatar}
         />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, MouseEvent } from "react";
+import { useState } from "react";
 import styles from "./Header.module.scss";
 import { useRouter } from "next/navigation";
 import {
@@ -58,7 +58,11 @@ export default function Header() {
       </header>
 
       <div className={`${styles.drawer} ${isDrawerOpen ? styles.open : ""}`}>
-        <div className={styles.drawerContent} onClick={stopPropagation}>
+        <div
+          className={styles.drawerContent}
+          onClick={stopPropagation}
+          role="presentation"
+        >
           <button className={styles.closeButton} onClick={closeDrawer}>
             <IconClose width={24} height={24} />
           </button>
