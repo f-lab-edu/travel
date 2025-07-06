@@ -1,0 +1,18 @@
+@import "./variables.scss";
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  height: 100%;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+}

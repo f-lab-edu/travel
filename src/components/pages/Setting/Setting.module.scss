@@ -1,0 +1,54 @@
+.settingWrapper {
+  padding: 32px 16px;
+}
+
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; // 원형
+  object-fit: cover;
+  border: 2px solid #ddd;
+  margin-bottom: 16px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userName {
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.userEmail {
+  font-size: 20px;
+  color: #777;
+}
+
+.changeAvatarBtn {
+  margin-top: 16px;
+  padding: 10px 16px;
+  background-color: #5ac8fa;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #35b3ea;
+  }
+}
