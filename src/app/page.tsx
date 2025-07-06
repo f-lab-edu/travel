@@ -2,6 +2,8 @@ import { signOut } from "@/utils/supabase/actions";
 import { createClientForServer } from "@/utils/supabase/server";
 import Link from "next/link";
 import styles from "./page.module.scss";
+import TripCardList from "@/components/pages/Home/TripCardList";
+import { cookies } from "next/headers";
 
 export default async function Home() {
   const supabase = await createClientForServer();
@@ -10,26 +12,25 @@ export default async function Home() {
 
   const user = session.data.user!;
   if (!user) throw new Error("Unexpected: user not found");
-  const { user_metadata, app_metadata } = user;
 
-  const { email } = user_metadata;
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/trips`, {
+    headers: {
+      Cookie: cookies().toString(),
+    },
+    cache: "no-store",
+  });
 
-  const Email = email ? `${email}` : "email Not Set";
+  if (!res.ok) {
+    return <div>여행 데이터를 불러오는 데 문제가 발생했어요</div>;
+  }
+  const { trips } = await res.json();
 
-  console.log(session);
   return (
     <div className={styles.pageWrapper}>
       {/* 메인 콘텐츠 */}
       <main className={styles.mainContent}>
-        <p className={styles.welcomeMsg}>
-          환영합니다 <b>{Email}</b> 님!
-        </p>
-
-        <form action={signOut}>
-          <button className={styles.logoutBtn} type="submit">
-            로그아웃
-          </button>
-        </form>
+        {/* 여행 목록 */}
+        <TripCardList trips={trips} />
       </main>
 
       {/* 푸터 */}
