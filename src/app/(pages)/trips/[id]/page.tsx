@@ -1,5 +1,7 @@
+// src/app/(pages)/trips/[id]/page.tsx
 import { createClientForServer } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
+import TripLayout from "@/components/pages/Trips/TripLayout";
 
 type Params = {
   params: { id: string };
@@ -23,15 +25,6 @@ export default async function TripDetailPage({ params }: Params) {
 
   if (!trip || error) return notFound();
 
-  return (
-    <div>
-      <h1>ttttt{trip.title}</h1>
-      <p>{trip.destination}</p>
-      <p>
-        {trip.start_date} ~ {trip.end_date}
-      </p>
-
-      {/* 여기에 여행 계획 작성 UI가 추가될 예정 */}
-    </div>
-  );
+  // TripLayout은 내부에서 "일정 | 가계부" 탭을 렌더링함
+  return <TripLayout trip={trip} />;
 }
