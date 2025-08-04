@@ -13,7 +13,7 @@ export default async function Home() {
   const user = authResult.data.user;
 
   if (!user) {
-    throw new Error(MESSAGES.error.USER_NOT_FOUND); // 메시지 상수화
+    throw new Error(MESSAGES.auth.error.USER_NOT_FOUND); // 메시지 상수화
   }
 
   // 🌐 여행 데이터 API 호출
@@ -29,7 +29,7 @@ export default async function Home() {
 
   // ❗️API 호출 실패 처리
   if (!response.ok) {
-    return <div>{MESSAGES.error.FAILED_TO_FETCH_TRIPS}</div>; // 메시지 상수화
+    return <div>{MESSAGES.trip.error.FETCH}</div>; // 메시지 상수화
   }
 
   const { trips } = await response.json();

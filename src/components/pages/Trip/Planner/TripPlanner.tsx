@@ -39,7 +39,7 @@ function renderScheduleCards(dates: Date[], selectedDate: SelectedDate) {
       <SectionCard
         key={date.toISOString()}
         title={`${format(date, "MM월 dd일")} 일정`}
-        content={MESSAGES.trip.EMPTY_SCHEDULE}
+        content={MESSAGES.trip.empty.SCHEDULE}
       />
     ));
   }
@@ -47,7 +47,7 @@ function renderScheduleCards(dates: Date[], selectedDate: SelectedDate) {
   return (
     <SectionCard
       title={`${format(selectedDate, "MM월 dd일")} 일정`}
-      content={MESSAGES.trip.EMPTY_SCHEDULE}
+      content={MESSAGES.trip.empty.SCHEDULE}
     />
   );
 }

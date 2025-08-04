@@ -12,7 +12,7 @@ export default async function SettingPage() {
 
   // 유저가 없는 경우 - 로그인 필요 메시지 출력
   if (!user) {
-    return <div>{MESSAGES.error.UNAUTHORIZED}</div>;
+    return <div>{MESSAGES.auth.error.UNAUTHORIZED}</div>;
   }
 
   // 유저 정보 조회

@@ -56,17 +56,17 @@ export default function NewTripPage() {
       if (error instanceof APIError) {
         switch (error.code) {
           case ERROR_CODES.UNAUTHORIZED:
-            alert(MESSAGES.error.UNAUTHORIZED);
+            alert(MESSAGES.auth.error.UNAUTHORIZED);
             router.push("/login");
             break;
           case ERROR_CODES.VALIDATION_FAILED:
-            alert(MESSAGES.error.VALIDATION_FAILED);
+            alert(MESSAGES.form.error.VALIDATION_FAILED);
             break;
           default:
-            alert(`${MESSAGES.error.CREATE_TRIP_FAILED}: ${error.message}`);
+            alert(`${MESSAGES.trip.error.CREATE}: ${error.message}`);
         }
       } else {
-        alert(`${MESSAGES.error.UNKNOWN}: ${(error as Error).message}`);
+        alert(`${MESSAGES.common.error.UNKNOWN}: ${(error as Error).message}`);
       }
     }
   };
