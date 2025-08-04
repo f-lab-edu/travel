@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabButtons {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 16px;
+
+  button {
+    flex: 1;
+    padding: 12px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+
+    &.active {
+      font-weight: bold;
+      border-bottom: 2px solid #0070f3;
+    }
+  }
+}
+
+.tabContent {
+  padding: 12px 0;
+}

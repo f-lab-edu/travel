@@ -1,0 +1,33 @@
+.tabContainer {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 12px;
+  margin-bottom: 24px;
+  scrollbar-width: none; // Firefox
+}
+
+.tabContainer::-webkit-scrollbar {
+  display: none; // Chrome, Safari
+}
+
+.tab {
+  white-space: nowrap;
+  background-color: #f0f0f0;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.tab:hover {
+  background-color: #ddd;
+}
+
+.active {
+  background-color: #0070f3;
+  color: white;
+}

@@ -4,9 +4,12 @@ import { useState } from "react";
 import styles from "./page.module.scss";
 import ReactFlagsSelect from "react-flags-select";
 import TripDateRangePicker from "@/components/forms/TripForm/TripDateRangePicker";
-import { addDays, subDays } from "date-fns";
+import { addDays, subDays, isAfter } from "date-fns";
 import { TripDateRange } from "@/app/types/trip";
 import { useRouter } from "next/navigation";
+import { createTrip } from "@/api/trips/tripClient";
+import { APIError } from "@/utils/https";
+import { ERROR_CODES } from "@/constants/errorCodes";
 
 export default function NewTripPage() {
   const [title, setTitle] = useState("");
@@ -21,34 +24,32 @@ export default function NewTripPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const tripData = {
-      title,
-      countryCode,
-      startDate: dateRange.startDate.toISOString(), // 날짜는 문자열로!
-      endDate: dateRange.endDate.toISOString(),
-    };
-
     try {
-      const res = await fetch("/api/trips", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(tripData),
+      await createTrip({
+        title,
+        countryCode,
+        startDate: dateRange.startDate.toISOString(),
+        endDate: dateRange.endDate.toISOString(),
       });
 
-      if (!res.ok) {
-        const { error } = await res.json();
-        alert("여행 생성 실패: " + error);
-        return;
-      }
-
-      const result = await res.json();
-      console.log("여행 생성 성공:", result);
-      // 성공 시 리디렉션 or 메시지 표시
+      console.log("여행 생성 성공");
       router.replace("/");
     } catch (error) {
-      alert("에러 발생: " + (error as Error).message);
+      if (error instanceof APIError) {
+        switch (error.code) {
+          case ERROR_CODES.UNAUTHORIZED:
+            alert("로그인이 필요합니다.");
+            router.push("/login");
+            break;
+          case ERROR_CODES.VALIDATION_FAILED:
+            alert("입력값이 부족합니다!");
+            break;
+          default:
+            alert("여행 생성 실패: " + error.message);
+        }
+      } else {
+        alert("예상치 못한 에러: " + (error as Error).message);
+      }
     }
   };
 

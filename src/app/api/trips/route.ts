@@ -2,6 +2,7 @@
 // src/app/api/trips/route.ts
 import { createClientForServer } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
+import { ERROR_CODES } from "@/constants/errorCodes";
 
 export async function POST(req: Request) {
   const supabase = await createClientForServer();
@@ -14,7 +15,7 @@ export async function POST(req: Request) {
 
   if (userError || !user) {
     return NextResponse.json(
-      { error: "로그인이 필요합니다." },
+      { error: "로그인이 필요합니다.", code: ERROR_CODES.UNAUTHORIZED },
       { status: 401 }
     );
   }
@@ -24,7 +25,10 @@ export async function POST(req: Request) {
 
   if (!title || !countryCode || !startDate || !endDate) {
     return NextResponse.json(
-      { error: "필수 항목이 누락되었습니다." },
+      {
+        error: "필수 항목이 누락되었습니다.",
+        code: ERROR_CODES.VALIDATION_FAILED,
+      },
       { status: 400 }
     );
   }
@@ -40,7 +44,10 @@ export async function POST(req: Request) {
   ]);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message, code: ERROR_CODES.DATABASE_ERROR },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json(
@@ -59,7 +66,7 @@ export async function GET() {
 
   if (userError || !user) {
     return NextResponse.json(
-      { error: "로그인이 필요합니다." },
+      { error: "로그인이 필요합니다.", code: ERROR_CODES.UNAUTHORIZED },
       { status: 401 }
     );
   }
@@ -71,7 +78,10 @@ export async function GET() {
     .order("start_date", { ascending: true });
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message, code: ERROR_CODES.DATABASE_ERROR },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ trips: data }, { status: 200 });

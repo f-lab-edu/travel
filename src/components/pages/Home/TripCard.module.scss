@@ -18,6 +18,12 @@
   z-index: 0;
 }
 
+.cardLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 /* ✅ 콘텐츠 레이어 */
 .content {
   position: relative;
