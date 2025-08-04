@@ -1,9 +1,10 @@
-import { signOut } from "@/utils/supabase/actions";
-import { createClientForServer } from "@/utils/supabase/server";
+import { signOut } from "@/lib/supabase/actions";
+import { createClientForServer } from "@/lib/supabase/server";
 import Link from "next/link";
 import styles from "./page.module.scss";
 import TripCardList from "@/components/pages/Home/TripCardList";
 import { cookies } from "next/headers";
+import Footer from "@/components/layout/Footer/Footer"; // 추가
 
 export default async function Home() {
   const supabase = await createClientForServer();
@@ -34,9 +35,7 @@ export default async function Home() {
       </main>
 
       {/* 푸터 */}
-      <footer className={styles.footer}>
-        <span>© 2025 TripPick. All rights reserved.</span>
-      </footer>
+      <Footer />
     </div>
   );
 }

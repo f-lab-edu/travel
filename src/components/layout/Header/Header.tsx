@@ -10,7 +10,7 @@ import {
   IconPlus,
   IconSetting,
   IconLogOut,
-} from "@/components/commons/icons/icons";
+} from "@/components/Icon/icons";
 import Link from "next/link";
 
 export default function Header() {
