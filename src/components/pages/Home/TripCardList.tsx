@@ -1,5 +1,6 @@
 import TripCard from "./TripCard";
 import styles from "./TripCardList.module.scss";
+import { MESSAGES } from "@/constants/messages";
 
 type Trip = {
   id: number;
@@ -10,17 +11,19 @@ type Trip = {
 };
 
 type Props = {
-  trips: Trip[];
+  tripList: Trip[];
 };
 
-export default function TripCardList({ trips }: Props) {
-  if (trips.length === 0) {
-    return <div className={styles.emptyMessage}>여행을 추가해보세요! ✈️</div>;
+export default function TripCardList({ tripList }: Props) {
+  if (tripList.length === 0) {
+    return (
+      <div className={styles.emptyMessage}>{MESSAGES.trip.EMPTY_TRIP_LIST}</div>
+    );
   }
 
   return (
     <div className={styles.list}>
-      {trips.map((trip) => (
+      {tripList.map((trip) => (
         <TripCard key={trip.id} trip={trip} />
       ))}
     </div>
