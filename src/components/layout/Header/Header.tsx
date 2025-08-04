@@ -15,11 +15,6 @@ import Link from "next/link";
 
 export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const router = useRouter();
-
-  const handleLogoClick = () => {
-    router.push("/");
-  };
 
   const openDrawer = () => {
     setIsDrawerOpen(true);
@@ -40,14 +35,13 @@ export default function Header() {
   return (
     <>
       <header className={styles.header}>
-        <button
-          type="button"
+        <Link
+          href={ROUTES_STATIC.HOME}
           className={styles.logoButton}
-          onClick={handleLogoClick}
           aria-label="홈으로 이동"
         >
           <h1 className={styles.logo}>TripPick</h1>
-        </button>
+        </Link>
 
         <button
           className={styles.iconButton}
