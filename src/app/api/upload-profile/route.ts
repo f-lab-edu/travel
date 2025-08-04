@@ -1,7 +1,14 @@
-// app/api/upload-profile/route.ts
+// 📁 app/api/upload-profile/route.ts
+
 import { NextResponse } from "next/server";
-import { createClientForServer } from "@/utils/supabase/server";
+import { createClientForServer } from "@/lib/supabase/server";
 import { v4 as uuidv4 } from "uuid";
+import { MESSAGES } from "@/constants/messages";
+import { ERROR_CODES } from "@/constants/errorCodes";
+
+// ✨ 공통 응답 헬퍼
+const jsonResponse = (data: any, status: number) =>
+  NextResponse.json(data, { status });
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -10,12 +17,17 @@ export async function POST(req: Request) {
   const supabase = await createClientForServer();
   const {
     data: { user },
+    error: authError,
   } = await supabase.auth.getUser();
 
-  if (!user || !file) {
-    return NextResponse.json(
-      { error: "인증 실패 또는 파일 없음" },
-      { status: 400 }
+  // 🔐 인증 & 파일 존재 여부 확인
+  if (authError || !user || !file) {
+    return jsonResponse(
+      {
+        error: MESSAGES.storage.error.UNAUTHORIZED_OR_NO_FILE,
+        code: ERROR_CODES.UNAUTHORIZED,
+      },
+      400
     );
   }
 
@@ -23,29 +35,41 @@ export async function POST(req: Request) {
   const fileName = `${uuidv4()}.${fileExt}`;
   const filePath = `profile-images/${fileName}`;
 
-  // 1. 이미지 업로드
+  // 📤 1. Supabase 스토리지에 이미지 업로드
   const { error: uploadError } = await supabase.storage
     .from("userprofileimages")
     .upload(filePath, file);
 
   if (uploadError) {
-    return NextResponse.json({ error: uploadError.message }, { status: 500 });
+    return jsonResponse(
+      {
+        error: `${MESSAGES.profile.error.UPLOAD_FAILED}: ${uploadError.message}`,
+        code: ERROR_CODES.UPLOAD_FAILED,
+      },
+      500
+    );
   }
 
-  // 2. Public URL 생성
+  // 🌐 2. public URL 획득
   const {
     data: { publicUrl },
   } = supabase.storage.from("userprofileimages").getPublicUrl(filePath);
 
-  // 3. 유저 테이블 업데이트
+  // 🛠 3. DB에 프로필 이미지 URL 업데이트
   const { error: updateError } = await supabase
     .from("users")
     .update({ profile_image_url: publicUrl })
     .eq("id", user.id);
 
   if (updateError) {
-    return NextResponse.json({ error: updateError.message }, { status: 500 });
+    return jsonResponse(
+      {
+        error: `${MESSAGES.profile.error.UPDATE_FAILED}: ${updateError.message}`,
+        code: ERROR_CODES.DATABASE_ERROR,
+      },
+      500
+    );
   }
 
-  return NextResponse.json({ publicUrl }, { status: 200 });
+  return jsonResponse({ publicUrl }, 200);
 }

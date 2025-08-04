@@ -1,42 +1,49 @@
-import { signOut } from "@/utils/supabase/actions";
-import { createClientForServer } from "@/utils/supabase/server";
-import Link from "next/link";
-import styles from "./page.module.scss";
-import TripCardList from "@/components/pages/Home/TripCardList";
+import { createClientForServer } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
+import { MESSAGES } from "@/constants/messages";
+import TripCardList from "@/components/pages/Home/TripCardList";
+import Footer from "@/components/layout/Footer/Footer";
+import styles from "./page.module.scss";
 
 export default async function Home() {
   const supabase = await createClientForServer();
 
-  const session = await supabase.auth.getUser();
+  // 🔐 사용자 인증 정보 가져오기
+  const authResult = await supabase.auth.getUser();
+  const user = authResult.data.user;
 
-  const user = session.data.user!;
-  if (!user) throw new Error("Unexpected: user not found");
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/trips`, {
-    headers: {
-      Cookie: cookies().toString(),
-    },
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    return <div>여행 데이터를 불러오는 데 문제가 발생했어요</div>;
+  if (!user) {
+    throw new Error(MESSAGES.auth.error.USER_NOT_FOUND); // 메시지 상수화
   }
-  const { trips } = await res.json();
 
+  // 🌐 여행 데이터 API 호출
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/trips`,
+    {
+      headers: {
+        Cookie: cookies().toString(),
+      },
+      cache: "no-store",
+    }
+  );
+
+  // ❗️API 호출 실패 처리
+  if (!response.ok) {
+    return <div>{MESSAGES.trip.error.FETCH}</div>; // 메시지 상수화
+  }
+
+  const { trips } = await response.json();
+
+  // 📦 페이지 렌더링
   return (
     <div className={styles.pageWrapper}>
       {/* 메인 콘텐츠 */}
       <main className={styles.mainContent}>
-        {/* 여행 목록 */}
-        <TripCardList trips={trips} />
+        <TripCardList tripList={trips} />
       </main>
 
       {/* 푸터 */}
-      <footer className={styles.footer}>
-        <span>© 2025 TripPick. All rights reserved.</span>
-      </footer>
+      <Footer />
     </div>
   );
 }

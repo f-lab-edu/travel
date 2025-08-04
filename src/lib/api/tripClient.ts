@@ -1,4 +1,4 @@
-import { fetcher } from "@/utils/https";
+import { fetcher } from "@/lib/api/https";
 
 // 대분류 여행 생성에 필요한 파라미터 타입 정의
 export type CreateTripParams = {

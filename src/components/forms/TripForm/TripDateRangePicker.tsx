@@ -2,7 +2,7 @@ import { DateRange } from "react-date-range";
 import { ko } from "date-fns/locale";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { TripDateRange } from "@/app/types/trip";
+import { TripDateRange } from "@/types/trip";
 
 type Props = {
   value: TripDateRange;

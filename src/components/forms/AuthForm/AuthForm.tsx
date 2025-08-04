@@ -1,6 +1,6 @@
 "use client";
 
-import { signInWithGoogle } from "@/utils/supabase/actions";
+import { signInWithGoogle } from "@/lib/supabase/actions";
 
 const AuthForm = () => {
   return (

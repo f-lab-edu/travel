@@ -1,5 +1,5 @@
 // lib/userRepo.ts
-import { createClientForServer } from "@/utils/supabase/server";
+import { createClientForServer } from "@/lib/supabase/server";
 
 export async function findUserById(id: string) {
   const supabase = await createClientForServer();

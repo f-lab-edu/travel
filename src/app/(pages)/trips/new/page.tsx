@@ -1,26 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.scss";
 import ReactFlagsSelect from "react-flags-select";
 import TripDateRangePicker from "@/components/forms/TripForm/TripDateRangePicker";
-import { addDays, subDays, isAfter } from "date-fns";
-import { TripDateRange } from "@/app/types/trip";
+import { addDays, subDays } from "date-fns";
+import { TripDateRange } from "@/types/trip";
 import { useRouter } from "next/navigation";
-import { createTrip } from "@/api/trips/tripClient";
-import { APIError } from "@/utils/https";
+import { createTrip } from "@/lib/api/tripClient";
+import { APIError } from "@/lib/api/https";
 import { ERROR_CODES } from "@/constants/errorCodes";
+import { MESSAGES } from "@/constants/messages";
+import { ROUTES_STATIC } from "@/constants/routes";
 
 export default function NewTripPage() {
-  const [title, setTitle] = useState("");
-  const router = useRouter();
-  const [countryCode, setCountryCode] = useState("KR");
+  const [title, setTitle] = useState<string>("");
+  const [countryCode, setCountryCode] = useState<string>("KR");
   const [dateRange, setDateRange] = useState<TripDateRange>({
     startDate: subDays(new Date(), 7),
     endDate: addDays(new Date(), 1),
     key: "selection",
   });
 
+  const router = useRouter();
+
+  // 여행 제목 변경 핸들러
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  // 국가 선택 핸들러
+  const handleCountrySelect = (code: string) => {
+    setCountryCode(code);
+  };
+
+  // 여행 일정 변경 핸들러
+  const handleDateChange = (range: TripDateRange) => {
+    setDateRange(range);
+  };
+
+  // 여행 생성 요청
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -32,23 +51,22 @@ export default function NewTripPage() {
         endDate: dateRange.endDate.toISOString(),
       });
 
-      console.log("여행 생성 성공");
-      router.replace("/");
+      router.replace(ROUTES_STATIC.HOME);
     } catch (error) {
       if (error instanceof APIError) {
         switch (error.code) {
           case ERROR_CODES.UNAUTHORIZED:
-            alert("로그인이 필요합니다.");
+            alert(MESSAGES.auth.error.UNAUTHORIZED);
             router.push("/login");
             break;
           case ERROR_CODES.VALIDATION_FAILED:
-            alert("입력값이 부족합니다!");
+            alert(MESSAGES.form.error.VALIDATION_FAILED);
             break;
           default:
-            alert("여행 생성 실패: " + error.message);
+            alert(`${MESSAGES.trip.error.CREATE}: ${error.message}`);
         }
       } else {
-        alert("예상치 못한 에러: " + (error as Error).message);
+        alert(`${MESSAGES.common.error.UNKNOWN}: ${(error as Error).message}`);
       }
     }
   };
@@ -65,7 +83,7 @@ export default function NewTripPage() {
             id="title"
             name="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={handleTitleChange}
             placeholder="예: 부산 3박 4일"
           />
         </div>
@@ -74,7 +92,7 @@ export default function NewTripPage() {
           <label htmlFor="location">여행 장소</label>
           <ReactFlagsSelect
             selected={countryCode}
-            onSelect={(code) => setCountryCode(code)}
+            onSelect={handleCountrySelect}
             showSelectedLabel={true}
             showOptionLabel={true}
             searchable
@@ -83,10 +101,7 @@ export default function NewTripPage() {
 
         <div className={styles.formGroup}>
           <label>여행 일정</label>
-          <TripDateRangePicker
-            value={dateRange}
-            onChange={(range) => setDateRange(range)}
-          />
+          <TripDateRangePicker value={dateRange} onChange={handleDateChange} />
         </div>
 
         <button type="submit" className={styles.submitButton}>

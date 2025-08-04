@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { format, eachDayOfInterval } from "date-fns";
-import styles from "./TripPlanner.module.scss";
-import DateTabs from "@/components/commons/Tab/DateTabs";
-import SectionCard from "@/components/commons/SectionCard";
+import styles from "@/components/pages/Trip/Planner/TripPlanner.module.scss";
+import DateTabs from "@/components/ui/Tab/DateTabs";
+import SectionCard from "@/components/ui/SectionCard";
 
 type Trip = {
   id: string;

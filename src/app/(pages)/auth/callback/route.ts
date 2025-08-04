@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClientForServer } from "@/utils/supabase/server";
+import { createClientForServer } from "@/lib/supabase/server";
 import { findUserById } from "../../../api/userRepo";
 
 export async function GET(request: NextRequest) {

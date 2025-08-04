@@ -1,38 +1,49 @@
-// POST (Create) , GET (Read travel List)
-// src/app/api/trips/route.ts
-import { createClientForServer } from "@/utils/supabase/server";
+// 📁 src/app/api/trips/route.ts
+
+import { createClientForServer } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { ERROR_CODES } from "@/constants/errorCodes";
+import { MESSAGES } from "@/constants/messages";
 
+// 공통 응답 함수
+const jsonResponse = (data: any, status: number) =>
+  NextResponse.json(data, { status });
+
+// 여행 생성 (POST)
 export async function POST(req: Request) {
   const supabase = await createClientForServer();
 
-  // 유저 세션 확인
+  // 유저 인증 확인
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    return NextResponse.json(
-      { error: "로그인이 필요합니다.", code: ERROR_CODES.UNAUTHORIZED },
-      { status: 401 }
+    return jsonResponse(
+      {
+        error: MESSAGES.auth.error.UNAUTHORIZED,
+        code: ERROR_CODES.UNAUTHORIZED,
+      },
+      401
     );
   }
 
   const body = await req.json();
   const { title, countryCode, startDate, endDate } = body;
 
+  // 필수값 누락 체크
   if (!title || !countryCode || !startDate || !endDate) {
-    return NextResponse.json(
+    return jsonResponse(
       {
-        error: "필수 항목이 누락되었습니다.",
+        error: MESSAGES.form.error.VALIDATION_FAILED,
         code: ERROR_CODES.VALIDATION_FAILED,
       },
-      { status: 400 }
+      400
     );
   }
 
+  // 여행 데이터 삽입
   const { data, error } = await supabase.from("travel_plans").insert([
     {
       title,
@@ -44,33 +55,39 @@ export async function POST(req: Request) {
   ]);
 
   if (error) {
-    return NextResponse.json(
-      { error: error.message, code: ERROR_CODES.DATABASE_ERROR },
-      { status: 500 }
+    return jsonResponse(
+      {
+        error: `${MESSAGES.common.error.DATABASE_ERROR}: ${error.message}`,
+        code: ERROR_CODES.DATABASE_ERROR,
+      },
+      500
     );
   }
 
-  return NextResponse.json(
-    { message: "여행이 생성되었습니다." },
-    { status: 201 }
-  );
+  return jsonResponse({ message: MESSAGES.trip.success.CREATE }, 201);
 }
 
+// 여행 목록 조회 (GET)
 export async function GET() {
   const supabase = await createClientForServer();
-  // 유저 세션 확인
+
+  // 유저 인증 확인
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
-    return NextResponse.json(
-      { error: "로그인이 필요합니다.", code: ERROR_CODES.UNAUTHORIZED },
-      { status: 401 }
+    return jsonResponse(
+      {
+        error: MESSAGES.auth.error.UNAUTHORIZED,
+        code: ERROR_CODES.UNAUTHORIZED,
+      },
+      401
     );
   }
 
+  // 여행 목록 조회
   const { data, error } = await supabase
     .from("travel_plans")
     .select("*")
@@ -78,11 +95,14 @@ export async function GET() {
     .order("start_date", { ascending: true });
 
   if (error) {
-    return NextResponse.json(
-      { error: error.message, code: ERROR_CODES.DATABASE_ERROR },
-      { status: 500 }
+    return jsonResponse(
+      {
+        error: `${MESSAGES.common.error.DATABASE_ERROR}: ${error.message}`,
+        code: ERROR_CODES.DATABASE_ERROR,
+      },
+      500
     );
   }
 
-  return NextResponse.json({ trips: data }, { status: 200 });
+  return jsonResponse({ trips: data }, 200);
 }
