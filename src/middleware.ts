@@ -1,7 +1,7 @@
 import { type NextRequest } from "next/server";
 // update session은 인증 로직에만 집중 하도록 파일 분리
 // framwork가 요구하는 entrypoint는 루트에 두기 위함. 각 역할 분리하기 위함.
-import { updateSession } from "@/utils/supabase/middleware";
+import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
   return await updateSession(request);

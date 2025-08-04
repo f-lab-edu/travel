@@ -1,6 +1,6 @@
 // POST (Create) , GET (Read travel List)
 // src/app/api/trips/route.ts
-import { createClientForServer } from "@/utils/supabase/server";
+import { createClientForServer } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { ERROR_CODES } from "@/constants/errorCodes";
 
