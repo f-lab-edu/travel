@@ -5,10 +5,10 @@ import styles from "./page.module.scss";
 import ReactFlagsSelect from "react-flags-select";
 import TripDateRangePicker from "@/components/forms/TripForm/TripDateRangePicker";
 import { addDays, subDays, isAfter } from "date-fns";
-import { TripDateRange } from "@/app/types/trip";
+import { TripDateRange } from "@/types/trip";
 import { useRouter } from "next/navigation";
-import { createTrip } from "@/api/trips/tripClient";
-import { APIError } from "@/utils/https";
+import { createTrip } from "@/lib/api/tripClient";
+import { APIError } from "@/lib/api/https";
 import { ERROR_CODES } from "@/constants/errorCodes";
 
 export default function NewTripPage() {

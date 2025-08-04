@@ -1,5 +1,5 @@
-import UserSetting from "@/components/pages/Setting/Setting";
-import { createClientForServer } from "@/utils/supabase/server";
+import UserSetting from "@/components/pages/Settings/Setting";
+import { createClientForServer } from "@/lib/supabase/server";
 import { findUserById } from "../../api/userRepo";
 
 export default async function SettingPage() {
