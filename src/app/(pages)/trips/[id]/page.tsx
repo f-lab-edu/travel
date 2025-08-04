@@ -1,7 +1,7 @@
 // src/app/(pages)/trips/[id]/page.tsx
 import { createClientForServer } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
-import TripLayout from "@/components/pages/trips/TripLayout";
+import TripLayout from "@/components/pages/Trip/TripLayout";
 
 type Params = {
   params: { id: string };
