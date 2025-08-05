@@ -1,5 +1,6 @@
 "use client";
 
+import { ROUTES_STATIC } from "@/constants/routes";
 import { useState } from "react";
 import styles from "./Header.module.scss";
 import { useRouter } from "next/navigation";
@@ -69,19 +70,19 @@ export default function Header() {
           <nav>
             <ul className={styles.menuList}>
               <li>
-                <Link href="/trips/new" onClick={handleMenuClick}>
+                <Link href={ROUTES_STATIC.TRIP_NEW} onClick={handleMenuClick}>
                   <IconPlus width={20} height={20} />
                   <span className={styles.menuText}>새로운 여행 추가</span>
                 </Link>
               </li>
               <li>
-                <Link href="/setting" onClick={handleMenuClick}>
+                <Link href={ROUTES_STATIC.SETTING} onClick={handleMenuClick}>
                   <IconSetting width={20} height={20} />
                   <span className={styles.menuText}>설정</span>
                 </Link>
               </li>
               <li>
-                <Link href="/logout" onClick={handleMenuClick}>
+                <Link href={ROUTES_STATIC.LOGOUT} onClick={handleMenuClick}>
                   <IconLogOut width={20} height={20} />
                   <span className={styles.menuText}>로그아웃</span>
                 </Link>

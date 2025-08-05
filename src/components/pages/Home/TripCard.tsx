@@ -1,6 +1,7 @@
 import styles from "./TripCard.module.scss";
 import { format } from "date-fns";
 import Link from "next/link";
+import { ROUTE_DYNAMIC } from "@/constants/routes";
 
 type TripCardProps = {
   trip: {
@@ -14,7 +15,7 @@ type TripCardProps = {
 
 export default function TripCard({ trip }: TripCardProps) {
   return (
-    <Link href={`/trips/${trip.id}`} className={styles.cardLink}>
+    <Link href={ROUTE_DYNAMIC.TRIP_DETAIL(trip.id)} className={styles.cardLink}>
       <div
         className={styles.card}
         style={{

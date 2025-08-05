@@ -1,10 +1,9 @@
-// TripChecklist.tsx
 "use client";
 
 import { useState } from "react";
 import styles from "./TripChecklist.module.scss";
 
-const defaultItems = [
+const DEFAULT_ITEMS = [
   "항공권",
   "세안도구",
   "의류",
@@ -15,6 +14,12 @@ const defaultItems = [
   "숙소 예약증",
   "우산",
 ];
+
+type ChecklistItem = {
+  id: string;
+  text: string;
+  checked: boolean;
+};
 
 type Trip = {
   id: string;
@@ -29,14 +34,14 @@ type Props = {
 };
 
 export default function TripChecklist({ trip }: Props) {
-  const [items, setItems] = useState(
-    defaultItems.map((text, idx) => ({
+  const [items, setItems] = useState<ChecklistItem[]>(
+    DEFAULT_ITEMS.map((text, idx) => ({
       id: String(idx),
       text,
       checked: false,
     }))
   );
-  const [newItem, setNewItem] = useState("");
+  const [newItem, setNewItem] = useState<string>("");
 
   const toggleCheck = (id: string) => {
     setItems((prev) =>

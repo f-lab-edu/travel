@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useReducer } from "react";
 import TripPlanner from "./TripPlanner";
 import TripBudget from "./TripBudget";
 import TripChecklist from "./TripChecklist";
-import styles from "./TripLayout.module.scss"; // 스타일 분리 추천
+import styles from "./TripLayout.module.scss";
+
+type TabType = "planner" | "budget" | "checklist";
 
 type Props = {
   trip: {
@@ -16,39 +18,38 @@ type Props = {
   };
 };
 
+const tabList: { key: TabType; label: string }[] = [
+  { key: "planner", label: "일정" },
+  { key: "budget", label: "가계부" },
+  { key: "checklist", label: "체크리스트" },
+];
+
 export default function TripLayout({ trip }: Props) {
-  const [tab, setTab] = useState<"planner" | "budget" | "checklist">("planner");
+  const [tab, dispatchTab] = useReducer((_, next: TabType) => next, "planner");
+
+  const tabComponents: Record<TabType, React.JSX.Element> = {
+    planner: <TripPlanner trip={trip} />,
+    budget: <TripBudget trip={trip} />,
+    checklist: <TripChecklist trip={trip} />,
+  };
 
   return (
     <div className={styles.wrapper}>
       {/* 탭 버튼 */}
       <div className={styles.tabButtons}>
-        <button
-          className={tab === "planner" ? styles.active : ""}
-          onClick={() => setTab("planner")}
-        >
-          일정
-        </button>
-        <button
-          className={tab === "budget" ? styles.active : ""}
-          onClick={() => setTab("budget")}
-        >
-          가계부
-        </button>
-        <button
-          className={tab === "checklist" ? styles.active : ""}
-          onClick={() => setTab("checklist")}
-        >
-          체크리스트
-        </button>
+        {tabList.map(({ key, label }) => (
+          <button
+            key={key}
+            className={tab === key ? styles.active : ""}
+            onClick={() => dispatchTab(key)}
+          >
+            {label}
+          </button>
+        ))}
       </div>
 
       {/* 콘텐츠 영역 */}
-      <div className={styles.tabContent}>
-        {tab === "planner" && <TripPlanner trip={trip} />}
-        {tab === "budget" && <TripBudget trip={trip} />}
-        {tab === "checklist" && <TripChecklist trip={trip} />}
-      </div>
+      <div className={styles.tabContent}>{tabComponents[tab]}</div>
     </div>
   );
 }
